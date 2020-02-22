@@ -4,7 +4,8 @@
 # @Title:  :   fashion mnist classification
 
 import tensorflow as tf
-from tensorflow import keras
+from tensorflow.keras.layers import *
+from tensorflow.keras.callbacks import *
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -16,7 +17,7 @@ seaborn.set()
 print(tf.__version__)
 # 2.0.0
 
-fashion_mnist = keras.datasets.fashion_mnist
+fashion_mnist = tf.keras.datasets.fashion_mnist
 (x_train_all, y_train_all), (x_test, y_test) = fashion_mnist.load_data()
 
 x_train_all = x_train_all.astype(np.float32) / 255
@@ -40,11 +41,15 @@ print(x_test.shape, y_test.shape)
 # model.add(keras.layers.Dense(10, activation='softmax'))
 
 
-model = keras.models.Sequential(layers=[
-    keras.layers.Flatten(input_shape=[28, 28]),
-    keras.layers.Dense(300, activation='relu'),
-    keras.layers.Dense(300, activation='relu'),
-    keras.layers.Dense(10, activation='softmax')
+model = tf.keras.models.Sequential(layers=[
+    tf.keras.layers.Flatten(input_shape=[28, 28]),
+    tf.keras.layers.Dense(300, activation='relu'),
+    # keras.layers.BatchNormalization(),
+    # keras.layers.AlphaDropout(0.5),
+    tf.keras.layers.Dense(300, activation='relu'),
+    # keras.layers.BatchNormalization(),
+    # keras.layers.AlphaDropout(0.5),
+    tf.keras.layers.Dense(10, activation='softmax')
 ])
 
 model.summary()
@@ -72,15 +77,15 @@ model.compile(
     metrics=['accuracy']
 )
 
-logdir = os.path.join('callbacks')
+logdir = os.path.join('fashion_mnist_callbacks')
 if not os.path.exists(logdir): os.mkdir(logdir)
 
 output_model_file = os.path.join(logdir, 'fashion_mnist_model.h5')
 
 callbacks = [
-    keras.callbacks.TensorBoard(logdir),
-    keras.callbacks.ModelCheckpoint(output_model_file, save_best_only=True),
-    keras.callbacks.EarlyStopping(patience=5, min_delta=1e-3)
+    tf.keras.callbacks.TensorBoard(logdir),
+    tf.keras.callbacks.ModelCheckpoint(output_model_file, save_best_only=True),
+    tf.keras.callbacks.EarlyStopping(patience=5, min_delta=1e-3)
 ]
 
 history = model.fit(

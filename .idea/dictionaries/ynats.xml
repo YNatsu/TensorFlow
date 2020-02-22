@@ -2,10 +2,15 @@
   <dictionary name="ynats">
     <words>
       <w>crossentropy</w>
+      <w>dataset</w>
+      <w>dtype</w>
+      <w>imdb</w>
       <w>keras</w>
+      <w>logdir</w>
       <w>mnist</w>
       <w>natsu</w>
       <w>relu</w>
+      <w>selu</w>
       <w>softmax</w>
     </words>
   </dictionary>
