@@ -4,8 +4,6 @@
 # @Title:  :   fashion mnist classification
 
 import tensorflow as tf
-from tensorflow.keras.layers import *
-from tensorflow.keras.callbacks import *
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
