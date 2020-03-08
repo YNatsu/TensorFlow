@@ -12,6 +12,7 @@ import seaborn as sns
 from sklearn.metrics import r2_score
 import keras.backend as K
 from  sklearn.svm import SVR
+from sklearn.tree import ExtraTreeRegressor
 sns.set()
 
 housing = load_boston()
@@ -24,6 +25,7 @@ print(housing.data.shape, housing.target.shape)
 # (506, 13) (506,)
 
 model = keras.models.Sequential(layers=[
+    keras.layers.BatchNormalization(),
     keras.layers.Dense(13, activation='relu'),
     keras.layers.Dense(64, activation='relu'),
     keras.layers.Dense(16, activation='relu'),
@@ -58,7 +60,7 @@ print(type(y_pred), type(y_train))
 # <class 'numpy.ndarray'> <class 'numpy.ndarray'>
 print(r2_score(y_true=y_train, y_pred=y_pred))
 
-svr = SVR()
+svr = ExtraTreeRegressor()
 svr.fit(x_train, y_train)
 print(svr.score(x_train, y_train))
 print(svr.score(x_test, y_test))
